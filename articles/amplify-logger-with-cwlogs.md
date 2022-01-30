@@ -3,11 +3,11 @@ title: 'AmplifyでウェブフロントエンドのログをCloudWatchに送る'
 emoji: '👀'
 type: 'tech' # tech: 技術記事 / idea: アイデア
 topics: ['Amplify', 'AWS', 'React', 'CloudWatch', 'Log']
-published: false
+published: true
 ---
 
 # 概要
-Amplifyが導入されたウェブフロントエンド(React)からAmazon CloudWatch Logsにログを送り、閲覧するまでの手順をまとめてみました。
+最近検証する機会があったので、Amplifyが導入されたウェブフロントエンド(React)からAmazon CloudWatch Logsにログを送り、閲覧するまでの手順をまとめてみました。
 
 ::: details 動作確認したバージョン
 - Amplify CLI -> @aws-amplify/cli@7.6.13
@@ -269,5 +269,5 @@ Amplify Loggerを利用してCloudWatch Logsにログを送る方法をまとめ
 感想や疑問点あれば気軽にコメント下さい！
 
 # 謝辞的な
-Amplify Advent Calndarの[AWS AmplifyでCloudWatchLogsにカジュアルにログを送りたい](https://qiita.com/jacoyutorius/items/3cbed0075125905345a9)をベースとして、いくつか補足を加えてみました。
+[Amplify Advent Calndar 2021](https://qiita.com/advent-calendar/2021/amplify)の[AWS AmplifyでCloudWatchLogsにカジュアルにログを送りたい](https://qiita.com/jacoyutorius/items/3cbed0075125905345a9)をベースとして、いくつか補足を加えてみました。
 執筆者の[@jacoyutorius](https://twitter.com/jacoyutorius)さん、Amplify LoggerとCloudWatch Logsの連携を教えていただいた[@enish](https://zenn.dev/enish)さん、ありがとうございます!
