@@ -26,6 +26,10 @@ published: true
     - (自分も知見がないので、良いコンテンツがあったらコメントで教えていただけると嬉しいです!)
 :::
 
+サンプルを下のGitHub Repositoryにあげました。
+[jaga810/amplify-logger-example: A sample repository for using Amplify Logger with CloudWatch Logs.](https://github.com/jaga810/amplify-logger-example)
+
+
 # Amplify Logger とは
 [Amplify Logger](https://docs.amplify.aws/lib/utilities/logger/q/platform/js/)はAWS Amplifyの機能の一つです。
 ドキュメントにはローカルでエラーログを出力する仕組みしか記述されていませんが、実はAmazon CloudWatch Logsにログを送ることが可能です。
