@@ -20,7 +20,7 @@ https://github.com/jaga810/amplify-hosting-redirect-setting-automation
 
 # Dynamic Routes に必要なリダイレクト設定
 
-## リダイレクト設定を行わない場合どうなるか？
+## なぜリダイレクト設定が必要か
 以下では [jaga810/amplify-hosting-redirect-setting-automation](https://github.com/jaga810/amplify-hosting-redirect-setting-automation) のルートディレクトリで作業しているものとします
 
 ```bash
@@ -114,7 +114,7 @@ Amplify Hosting は JSON ファイルを用いてリダイレクト設定を更�
 
 https://github.com/jaga810/amplify-hosting-redirect-setting-automation/blob/main/update_amplify_redirect_setting.sh
 
-ちなみに、1.を詳しく見ると、以下3つの設定をおこなっています
+ちなみに、1. を詳しく見ると、以下3つの設定をおこなっています
 - `/pages` 配下のファイル群に対応した 200 リダイレクトの設定
 - アプリで必要な 301 リダイレクトの設定
 - 想定外のパスへのアクセスに対する 404 リダイレクトの設定
@@ -143,17 +143,21 @@ Amplify Hosting では、アプリケーションのルートディレクトリ�
 
 https://github.com/jaga810/amplify-hosting-redirect-setting-automation/blob/main/amplify.yml#L11-L13
 
-### IAMの設定
+### IAM の設定
 デフォルトの設定ではビルドパイプライン中で `aws amplify update-app` を実行する権限がありませんので、足してあげましょう
 
 1. General 開き、Edit を押す
-![Generalの設定を開き、Editを押す](/images/redirect-settings-automation-on-amplify-hosting/general-settings.png)
+![General の設定を開き、Editを押す](/images/redirect-settings-automation-on-amplify-hosting/general-settings.png)
 2. Create new role を押す
 ![Create new role を押す](/images/redirect-settings-automation-on-amplify-hosting/create-new-role.png)
-3. IAMの画面に移動するので、初期設定のまま遷移してロールを作成する(ただし、Amplifyのビルドパイプラインが利用するIAMの権限を絞りたい場合は、適切な権限を付与するようカスタマイズしてください)
+3. IAM の画面に移動するので、初期設定のまま遷移してロールを作成する(ただし、Amplify のビルドパイプラインが利用する IAM の権限を絞りたい場合は、適切な権限を付与するようカスタマイズしてください)
 4. 作成したロールを使うよう設定する
 ![作成したロールを使うよう設定する](/images/redirect-settings-automation-on-amplify-hosting/set-new-role.png)
 
+# まとめ
+Amplify Hosting でビルドが走るたびに、自動的にリダイレクト設定を更新する方法を紹介しました 🚀
+
+`amplify.yml` と `update_amplify_redirect_setting.sh` をコピペし、IAM の設定をすればすぐ使うことができると思いますので、是非ご活用ください〜！
 
 # おまけ
 
@@ -180,11 +184,6 @@ postBuild:
         - if [ "${AWS_BRANCH}" = "main" ]; then ./update_amplify_redirect_setting.sh; fi
 ```
 
-# まとめ
-Amplify Hosting でビルドが走るたびに、自動的にリダイレクト設定を更新する方法を紹介しました 🚀
-
-`amplify.yml` と `update_amplify_redirect_setting.sh` をコピペし、IAM の設定をすればすぐ使うことができると思いますので、是非ご活用ください〜！
-
 # 参考
 この記事は偉大な先人の肩に乗って執筆しました
 - [【Next.js x Amplify】リダイレクト設定が面倒なので一括で出力するシェルスクリプトを書きました【書き換えて、リダイレクト】 - Qiita](https://qiita.com/ItsukiN32/items/d895f32bdeeb757fb85e) 
@@ -192,9 +191,9 @@ Amplify Hosting でビルドが走るたびに、自動的にリダイレクト�
 
 # 最後に
 私が所属する [Nstock](https://nstock.co.jp) では、ソフトウェアエンジニアを募集中です🔥
+どんな会社なのか気になる、という方はお気軽にご応募 or Twitter DM ください〜！
 
 https://open.talentio.com/r/1/c/nstock/pages/70402
 
-ちょっと興味あるかも、という方はお気軽にご応募 or Twitter DM ください〜！
 
 https://twitter.com/jagaimogmog
