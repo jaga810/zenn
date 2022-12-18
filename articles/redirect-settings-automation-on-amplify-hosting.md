@@ -6,7 +6,7 @@ topics: ["nextjs", "amplify"]
 published: false
 ---
 
-こんにちは、じゃがです👋
+こんにちは、じゃがです 👋
 本記事は [AWS AmplifyとAWS×フロントエンド Advent Calendar 2022](https://qiita.com/advent-calendar/2022/amplify)、18日目の記事です
 
 # 概要
@@ -41,7 +41,8 @@ pages
 ```
 
 `pages/[id]/index.tsx` の部分が Dynamic Routes を利用している部分になります
-build を実行します
+
+ビルドを実行します
 
 ```bash
 npm run build # next build && next export
@@ -67,6 +68,7 @@ out
 ![404にリダイレクトされる様子](/images/redirect-settings-automation-on-amplify-hosting/404.png)
 
 `/posts/123` にアクセスを試みても、実際にホストされているファイルは `posts/[id].html` であって `posts/123.html` ではありません
+
 そのため、リクエストパスに該当するファイルが見つからず、404 ページにリダイレクトされてしまうのです
 
 この問題を回避するためにはどうしたら良いのでしょうか？
@@ -76,21 +78,24 @@ out
 
 ![リダイレクト設定の例](/images/redirect-settings-automation-on-amplify-hosting/redirect-setting.png)
 
-これは `/posts/<id>` (`<id>`は任意の文字列)にマッチするリクエストを、`/posts/[id]` にリダイレクトする、という設定です
+赤い枠線で囲まれた箇所は、 `/posts/<id>` (`<id>`は任意の文字列) にマッチするリクエストを、`/posts/[id]` にリダイレクトする、という設定です
+
 たとえば `/posts/123` へのリクエストが `/posts/<id>` にマッチしてリダイレクトされ、 `/posts/[id].html` がユーザーに返されることになります
 
-Amplify Hosting のリダイレクト設定において、`<id>` はプレイスホルダーと呼ばれています
+ちなみに、Amplify Hosting のリダイレクト設定において、`<id>` はプレイスホルダーと呼ばれています
 
 ![リダイレクト設定におけるプレイスホルダー](/images/redirect-settings-automation-on-amplify-hosting/redirect-placeholder.png)
 [リダイレクトを使用する - AWS Amplifyホストする](https://docs.aws.amazon.com/ja_jp/amplify/latest/userguide/redirects.html#placeholders)
 
 今回の用途のように、特定のパス構造でファイルが見つからない場合にリダイレクトをかけたい場合にプレイスホルダーが重宝します
+
 また、プレイスホルダーは変数のように扱うことができ、リダイレクト先を動的に指定することもできます
 
 
 ## 毎回手作業は辛いよ...
 
 このように、`pages` 配下に Dynamic Routes を利用するページを足す度、Amplify Hosting のリダイレクト設定を追加していく必要があります
+
 手動で更新するとどうしてもヒューマンエラーが起こってしまいますし、何より面倒です
 
 定型作業は自動化しちゃいましょう！
@@ -101,20 +106,21 @@ Amplify Hosting のリダイレクト設定において、`<id>` はプレイス
 
 ## `update_amplify_redirect_setting.sh` 
 Amplify Hosting は JSON ファイルを用いてリダイレクト設定を更新することができます
+
 これを利用して、以下の2ステップでリダイレクト設定を更新します
 
 1. リダイレクト設定が記された `redirect_settings.json` の生成
 2. AWS CLI を用いた `redirect_settings.json` の内容の反映
 
-1.をさらに細分化すると、以下三つの設定を行います
+https://github.com/jaga810/amplify-hosting-redirect-setting-automation/blob/main/update_amplify_redirect_setting.sh
+
+ちなみに、1.を詳しく見ると、以下3つの設定をおこなっています
 - `/pages` 配下のファイル群に対応した 200 リダイレクトの設定
 - アプリで必要な 301 リダイレクトの設定
 - 想定外のパスへのアクセスに対する 404 リダイレクトの設定
 
 
-https://github.com/jaga810/amplify-hosting-redirect-setting-automation/blob/main/update_amplify_redirect_setting.sh
-
-手元で実行する場合は以下のコマンドを実行します
+手元で出力されるリダイレクト設定を確認したい場合は、以下のコマンドを実行してください
 
 ```bash
 chmod +x update_amplify_redirect_setting.sh 
@@ -151,20 +157,22 @@ https://github.com/jaga810/amplify-hosting-redirect-setting-automation/blob/main
 
 # おまけ
 
-## お金
+## コスト
 
-Amplify Hosting は API をコールしただけでは課金されないので、本記事で紹介したリダイレクト設定の自動化を足すことによって追加料金が発生することはありません
-詳しい課金体系は[公式ドキュメント](https://aws.amazon.com/jp/amplify/pricing)をどうぞ
+Amplify Hosting は API をコールしただけでは課金されないため、本記事で紹介したリダイレクト設定の自動化を足すことによる追加料金はありません
+[AWS Amplify の料金 | ウェブとモバイルのフロントエンド | Amazon Web Services](https://aws.amazon.com/jp/amplify/pricing/)
 
 ## 特定のブランチでのみリダイレクト設定の更新を行う
 
-本記事で紹介した設定をすると、[プレビュー](https://docs.aws.amazon.com/amplify/latest/userguide/pr-previews.html)や main ブランチ以外の環境へのデプロイ時にもリダイレクト設定の更新が走ります
+本記事で紹介した設定をすると、[Pull Request プレビュー](https://docs.aws.amazon.com/amplify/latest/userguide/pr-previews.html)や main ブランチ以外の環境へのデプロイ時にもリダイレクト設定の更新が走ります
+
 `pages` 配下にページを追加していく場合は問題ありませんが、既存のページ構成を大きく変更したい場合などはご注意ください
+
 dev ブランチでページ構成を変えたものがリダイレクト設定に反映されてしまい、main ブランチが紐づく本番環境で意図しないリダイレクトが起こってしまう可能性があります
 (Amplify Hosting のリダイレクト設定はブランチごとに設定できるわけではないため)
 
-main ブランチでのみリダイレクト設定を更新したい場合は、`AWS_BRANCH` 環境変数を利用すると良さそうです。
-([ビルド設定の構成](https://docs.aws.amazon.com/ja_jp/amplify/latest/userguide/build-settings.html#branch-specific-build-settings))
+main ブランチでのみリダイレクト設定を更新したい場合は、`AWS_BRANCH` 環境変数を利用すると良さそうです
+[ビルド設定の構成 - AWS Amplifyホストする](https://docs.aws.amazon.com/ja_jp/amplify/latest/userguide/build-settings.html#branch-specific-build-settings)
 
 ```yml:amplify.yml
 postBuild:
@@ -173,7 +181,8 @@ postBuild:
 ```
 
 # まとめ
-Amplify Hosting でビルドが走るたびに、自動的にリダイレクト設定を更新する方法を紹介しました
+Amplify Hosting でビルドが走るたびに、自動的にリダイレクト設定を更新する方法を紹介しました 🚀
+
 `amplify.yml` と `update_amplify_redirect_setting.sh` をコピペし、IAM の設定をすればすぐ使うことができると思いますので、是非ご活用ください〜！
 
 # 参考
