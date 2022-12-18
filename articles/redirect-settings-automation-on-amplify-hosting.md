@@ -158,7 +158,7 @@ https://github.com/jaga810/amplify-hosting-redirect-setting-automation/blob/main
 ![作成したロールを使うよう設定する](/images/redirect-settings-automation-on-amplify-hosting/set-new-role.png)
 
 # まとめ
-Amplify Hosting でビルドが走るたびに、自動的にリダイレクト設定を更新する方法を紹介しました 🚀
+Amplify Hosting における Dynamic Routes のリダイレクト設定と、その自動化についてご紹介しました 🚀
 
 `amplify.yml` と `update_amplify_redirect_setting.sh` をコピペし、IAM の設定をすればすぐ使うことができると思いますので、是非ご活用ください〜！
 
