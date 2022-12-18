@@ -21,7 +21,7 @@ https://github.com/jaga810/amplify-hosting-redirect-setting-automation
 # Dynamic Routing に必要なリダイレクト設定
 具体的には下記のようなリダイレクト設定が必要です
 
-![](/images/redirection-settings-automation-on-amplify-hosting/redirect-setting.png)
+![](/images/redirect-settings-automation-on-amplify-hosting/redirect-setting.png)
 
 `pages` 配下にページを足す度、リダイレクト設定を追加していく必要があります
 手動で更新するとどうしてもヒューマンエラーが起こってしまいますし、何より面倒です
@@ -36,8 +36,8 @@ https://github.com/jaga810/amplify-hosting-redirect-setting-automation
 Amplify Hosting は JSON ファイルを用いてリダイレクト設定を更新することができます
 これを利用して、以下の2ステップでリダイレクト設定を更新します
 
-1. リダイレクト設定が記された `redirection_settings.json` の生成
-2. AWS CLI を用いた `redirection_settings.json` の内容の反映
+1. リダイレクト設定が記された `redirect_settings.json` の生成
+2. AWS CLI を用いた `redirect_settings.json` の内容の反映
 
 1.をさらに細分化すると、以下三つの設定を行います
 - `/pages` 配下のファイル群に対応した 200 リダイレクトの設定
@@ -74,12 +74,12 @@ https://github.com/jaga810/amplify-hosting-redirect-setting-automation/blob/main
 デフォルトの設定ではビルドパイプライン中で `aws amplify update-app` を実行する権限がありませんので、足してあげましょう
 
 1. General 開き、Edit を押す
-![Generalの設定を開き、Editを押す](/images/redirection-settings-automation-on-amplify-hosting/general-settings.png)
+![Generalの設定を開き、Editを押す](/images/redirect-settings-automation-on-amplify-hosting/general-settings.png)
 2. Create new role を押す
-![Create new role を押す](/images/redirection-settings-automation-on-amplify-hosting/create-new-role.png)
+![Create new role を押す](/images/redirect-settings-automation-on-amplify-hosting/create-new-role.png)
 3. IAMの画面に移動するので、初期設定のまま遷移してロールを作成する(ただし、Amplifyのビルドパイプラインが利用するIAMの権限を絞りたい場合は、適切な権限を付与するようカスタマイズしてください)
 4. 作成したロールを使うよう設定する
-![作成したロールを使うよう設定する](/images/redirection-settings-automation-on-amplify-hosting/set-new-role.png)
+![作成したロールを使うよう設定する](/images/redirect-settings-automation-on-amplify-hosting/set-new-role.png)
 
 
 # おまけ
