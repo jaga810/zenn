@@ -19,14 +19,81 @@ Next.js の Dynamic Routes を使ったアプリケーションを Amplify Hosti
 https://github.com/jaga810/amplify-hosting-redirect-setting-automation
 
 # Dynamic Routes に必要なリダイレクト設定
-具体的には下記のようなリダイレクト設定が必要です
 
-![](/images/redirect-settings-automation-on-amplify-hosting/redirect-setting.png)
+## リダイレクト設定を行わない場合どうなるか？
+以下では [jaga810/amplify-hosting-redirect-setting-automation](https://github.com/jaga810/amplify-hosting-redirect-setting-automation) のルートディレクトリで作業しているものとします
 
-`pages` 配下にページを足す度、リダイレクト設定を追加していく必要があります
+```bash
+$ tree pages
+pages
+├── _app.tsx
+├── _document.tsx
+├── index.tsx
+├── posts
+│   ├── [id]
+│   │   └── index.tsx
+│   └── index.tsx
+└── settings
+    ├── private
+    │   └── index.tsx
+    └── public
+        └── index.tsx
+```
+
+`pages/[id]/index.tsx` の部分が Dynamic Routes を利用している部分になります
+build を実行します
+
+```bash
+npm run build # next build && next export
+```
+
+out ディレクトリに以下のようなファイル群が生成されます
+
+```bash
+$ tree out -P *.html -I _next
+out
+├── 404.html
+├── index.html
+├── posts
+│   └── [id].html
+├── posts.html
+└── settings
+    ├── private.html
+    └── public.html
+```
+
+これを Amplify Hosting でホストし、`/posts/123` のようなパスにアクセスすると、以下のように `/404.html` にリダイレクトされてしまいます
+
+![404にリダイレクトされる様子](/images/redirect-settings-automation-on-amplify-hosting/404.png)
+
+`/posts/123` にアクセスを試みても、実際にホストされているファイルは `posts/[id].html` であって `posts/123.html` ではありません
+そのため、リクエストパスに該当するファイルが見つからず、404 ページにリダイレクトされてしまうのです
+
+この問題を回避するためにはどうしたら良いのでしょうか？
+
+## Dynamic Routes のためのリダイレクト設定
+上述の問題を回避するためには、下記のようなリダイレクト設定が必要です
+
+![リダイレクト設定の例](/images/redirect-settings-automation-on-amplify-hosting/redirect-setting.png)
+
+これは `/posts/<id>` (`<id>`は任意の文字列)にマッチするリクエストを、`/posts/[id]` にリダイレクトする、という設定です
+たとえば `/posts/123` へのリクエストが `/posts/<id>` にマッチしてリダイレクトされ、 `/posts/[id].html` がユーザーに返されることになります
+
+Amplify Hosting のリダイレクト設定において、`<id>` はプレイスホルダーと呼ばれています
+
+![リダイレクト設定におけるプレイスホルダー](/images/redirect-settings-automation-on-amplify-hosting/redirect-placeholder.png)
+[リダイレクトを使用する - AWS Amplifyホストする](https://docs.aws.amazon.com/ja_jp/amplify/latest/userguide/redirects.html#placeholders)
+
+今回の用途のように、特定のパス構造でファイルが見つからない場合にリダイレクトをかけたい場合にプレイスホルダーが重宝します
+また、プレイスホルダーは変数のように扱うことができ、リダイレクト先を動的に指定することもできます
+
+
+## 毎回手作業は辛いよ...
+
+このように、`pages` 配下に Dynamic Routes を利用するページを足す度、Amplify Hosting のリダイレクト設定を追加していく必要があります
 手動で更新するとどうしてもヒューマンエラーが起こってしまいますし、何より面倒です
 
-こうした定型作業は自動化するに限りますね！
+定型作業は自動化しちゃいましょう！
 
 
 # 自動化
@@ -50,11 +117,11 @@ https://github.com/jaga810/amplify-hosting-redirect-setting-automation/blob/main
 手元で実行する場合は以下のコマンドを実行します
 
 ```bash
-chmod +x update_amplify_redirect_setting.sh
+chmod +x update_amplify_redirect_setting.sh 
 ./update_amplify_redirect_setting.sh
 ```
 
-AWS CLI がインストールされていない環境の場合は以下のようなエラーが出ますが、リダイレクト設定の JSON ファイル自体は出力されるので無視いただいて結構です
+AWS CLI がインストールされていない環境の場合は以下のようなエラーが出ますが、リダイレクト設定の JSON ファイル自体は出力されるので無視いただいて大丈夫です
 
 ```bash
 ./update_amplify_redirect_setting.sh: line 97: /usr/local/bin/aws: No such file or directory
@@ -65,7 +132,7 @@ AWS CLI がインストールされていない環境の場合は以下のよう
 
 ### `amplify.yml`
 Amplify Hosting では、アプリケーションのルートディレクトリ直下に `amplify.yml` を置くことでビルド設定をカスタマイズできます
-[参考](https://docs.aws.amazon.com/ja_jp/amplify/latest/userguide/build-settings.html)
+[ビルド設定の構成 - AWS Amplifyホストする](https://docs.aws.amazon.com/ja_jp/amplify/latest/userguide/build-settings.html)
 
 
 https://github.com/jaga810/amplify-hosting-redirect-setting-automation/blob/main/amplify.yml#L11-L13
