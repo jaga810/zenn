@@ -10,7 +10,7 @@ published: true
 本記事は [AWS AmplifyとAWS×フロントエンド Advent Calendar 2022](https://qiita.com/advent-calendar/2022/amplify)、18日目の記事です
 
 # 概要
-Next.js の Dynamic Routes を使ったアプリケーションを Amplify Hosting でホストする際には、適切なリダイレクト設定が必要です
+Next.js の [Dynamic Routes](https://nextjs.org/docs/routing/dynamic-routes) を使ったアプリケーションを Amplify Hosting でホストする際には、適切なリダイレクト設定が必要です
 
 毎度ページを足すたびにリダイレクト設定を手動で書き換えるのは大変なので、ビルド時に自動でリダイレクト設定を更新しちゃいましょう！
 
