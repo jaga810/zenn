@@ -3,7 +3,7 @@ title: "Amplify Hosting × Next.js Dynamic Routesのリダイレクト設定を�
 emoji: "🤖"
 type: "tech"
 topics: ["nextjs", "amplify"]
-published: false
+published: true
 ---
 
 こんにちは、じゃがです 👋
