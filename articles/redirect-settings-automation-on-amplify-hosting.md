@@ -36,8 +36,8 @@ https://github.com/jaga810/amplify-hosting-redirect-setting-automation
 Amplify Hosting は JSON ファイルを用いてリダイレクト設定を更新することができます
 これを利用して、以下の2ステップでリダイレクト設定を更新します
 
-1. リダイレクト設定が記された `redirect_settings.json` の生成
-2. AWS CLI を用いた `redirect_settings.json` の内容の反映
+1. リダイレクト設定が記された `redirect_setting.json` の生成
+2. AWS CLI を用いた `redirect_setting.json` の内容の反映
 
 1.をさらに細分化すると、以下三つの設定を行います
 - `/pages` 配下のファイル群に対応した 200 リダイレクトの設定
