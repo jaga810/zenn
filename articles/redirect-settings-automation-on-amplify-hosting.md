@@ -10,7 +10,7 @@ published: true
 本記事は [AWS AmplifyとAWS×フロントエンド Advent Calendar 2022](https://qiita.com/advent-calendar/2022/amplify)、18日目の記事です
 
 # 概要
-Next.js の Dynamic Routes を使ったアプリケーションを Amplify Hosting でホストする際には、適切なリダイレクト設定が必要です
+Next.js の [Dynamic Routes](https://nextjs.org/docs/routing/dynamic-routes) を使ったアプリケーションを Amplify Hosting でホストする際には、適切なリダイレクト設定が必要です
 
 毎度ページを足すたびにリダイレクト設定を手動で書き換えるのは大変なので、ビルド時に自動でリダイレクト設定を更新しちゃいましょう！
 
@@ -114,11 +114,14 @@ Amplify Hosting は JSON ファイルを用いてリダイレクト設定を更�
 
 https://github.com/jaga810/amplify-hosting-redirect-setting-automation/blob/main/update_amplify_redirect_setting.sh
 
-ちなみに、1. を詳しく見ると、以下3つの設定をおこなっています
+ちなみに、1. を詳しく見ると、以下のような設定を行っています
 - `/pages` 配下のファイル群に対応した 200 リダイレクトの設定
 - アプリで必要な 301 リダイレクトの設定
 - 想定外のパスへのアクセスに対する 404 リダイレクトの設定
+- [Trailing Slash](https://nextjs.org/docs/api-reference/next.config.js/trailing-slash) の対応
 
+このように、Dynamic Routes 用の設定以外にも、ホスティングに必要なさまざまなリダイレクト設定を足しています
+そのため、Dynamic Routes を利用しているパスも、そうでないパスも、リダイレクト設定の対象としています
 
 手元で出力されるリダイレクト設定を確認したい場合は、以下のコマンドを実行してください
 
@@ -155,7 +158,7 @@ https://github.com/jaga810/amplify-hosting-redirect-setting-automation/blob/main
 ![作成したロールを使うよう設定する](/images/redirect-settings-automation-on-amplify-hosting/set-new-role.png)
 
 # まとめ
-Amplify Hosting でビルドが走るたびに、自動的にリダイレクト設定を更新する方法を紹介しました 🚀
+Amplify Hosting における Dynamic Routes のリダイレクト設定と、その自動化についてご紹介しました 🚀
 
 `amplify.yml` と `update_amplify_redirect_setting.sh` をコピペし、IAM の設定をすればすぐ使うことができると思いますので、是非ご活用ください〜！
 
