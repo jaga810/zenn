@@ -2,8 +2,9 @@
 title: "RLSではじめるマルチテナントSaaS"
 emoji: "🤖"
 type: "tech"
-topics: ["rls", "postgresql", "java", "springboot"]
+topics: ["postgresql", "rls",  "java", "springboot"]
 published: false
+publication_name: "nstock"
 ---
 
 こんにちは！Nstockのじゃがです。
@@ -84,7 +85,7 @@ RLSでマルチテナント分離を行う場合、USING句に分離する条件
 
 以下ではこの２つの方法を比較します。
 
-### 条件式のパターン 1. ロール名
+#### 条件式のパターン 1. ロール名
 
 DBロール名を参照して条件式を書きます。まずはテーブルを用意します。
 
@@ -188,7 +189,7 @@ id |    content     | tenant_id
 
 また、ロール名含むSQLの識別子には英数字、アンダースコアしか利用できず[^2]、UUIDフォーマットは利用できません。Nstockではセキュリティ観点からIDとなるカラムにはUUID型を採用しているため、この点でもフィットしませんでした。
 
-### 条件式のパターン 2. 実行時パラメータ
+#### 条件式のパターン 2. 実行時パラメータ
 
 もう一つの方法は実行時パラメータを参照する方法です。まずはテーブルを用意します。
 
@@ -291,7 +292,7 @@ id | name |              tenant_id
 
 実行時パラメータは `SET` が発行されたDBセッション内でしか利用されず、他のセッションからは参照されません。セッションが閉じた際に実行時パラメータも破棄されます。
 
-### Nstockではどちらを採用したか
+#### Nstockではどちらを採用したか
 
 パターン2.の実行時パラメータを利用した方式では、パターン1.でみたロール名を利用したRLSポリシーと異なり、DBロールの管理が必要ありません。そのため、Nstockでは実行時パラメータを利用したRLSポリシーを採用しています。
 
@@ -311,89 +312,89 @@ CREATE POLICY tenant_isolation_policy ON member TO app_user
 
 ::::details 1. リクエストごとに分離された、tenant_idを格納する変数を用意する
     
-    ```java
-    public class TenantThreadLocalStorage {
-        private static ThreadLocal<String> tenant = new ThreadLocal<>();
-    
-        public static void setTenantId(String tenantId) {
-            tenant.set(tenantId);
-        }
-    
-        public static String getTenantIdString() {
-            return tenant.get();
-        }
-    
-        public static UUID getTenantId() {
-            return UUID.fromString(tenant.get());
-        }
+```java
+public class TenantThreadLocalStorage {
+    private static ThreadLocal<String> tenant = new ThreadLocal<>();
+
+    public static void setTenantId(String tenantId) {
+        tenant.set(tenantId);
     }
-    ```
-    
-    - ThreadLocalクラスを使用すると、スレッドごとに独立した値が保存される変数を格納することができる[^3]
-    - Spring Bootの場合、リクエストごとにスレッドが立ち上がるため、 1リクエスト = 1スレッドとなる[^4]
-    - これにより、SpringではThreadLocalのインスタンスをリクエストごとに分離された変数の保管場所として利用できる
+
+    public static String getTenantIdString() {
+        return tenant.get();
+    }
+
+    public static UUID getTenantId() {
+        return UUID.fromString(tenant.get());
+    }
+}
+```
+
+- ThreadLocalクラスを使用すると、スレッドごとに独立した値が保存される変数を格納することができる[^3]
+- Spring Bootの場合、リクエストごとにスレッドが立ち上がるため、 1リクエスト = 1スレッドとなる[^4]
+- これにより、SpringではThreadLocalのインスタンスをリクエストごとに分離された変数の保管場所として利用できる
 ::::
 
-::::details 2. リクエストの前処理でリクエストヘッダから `tenant_id` を取り出し、ストレージにセットする
+::::details 2. リクエストの前処理でリクエストヘッダから tenant_id を取り出し、ストレージにセットする
     
-    ```java
-    @Component
-    public class RequestInterceptor implements HandlerInterceptor {
-        @Override
-        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-                throws Exception {
-            // 認証情報を取り出す
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    
-            // 認証情報からtenant_idを取り出す
-    				Jwt jwt = (Jwt) authentication.getCredentials();
-            Map<String, Object> map = jwt.getClaims();
-            Object tenantIdObj = map.get("tenant_id");
-    
-            // tenantIdがJWTに含まれない場合は401エラーを返す
-            if (tenantIdObj == null) {
-                response.setStatus(401);
-                return false;
-            }
-    
-            // 1.で用意したTenantThreadLocalStorageにtenantIdをセットする
-            TenantThreadLocalStorage.setTenantId(tenantIdObj.toString());
-    
-            return true;
+```java
+@Component
+public class RequestInterceptor implements HandlerInterceptor {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+        // 認証情報を取り出す
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 認証情報からtenant_idを取り出す
+                Jwt jwt = (Jwt) authentication.getCredentials();
+        Map<String, Object> map = jwt.getClaims();
+        Object tenantIdObj = map.get("tenant_id");
+
+        // tenantIdがJWTに含まれない場合は401エラーを返す
+        if (tenantIdObj == null) {
+            response.setStatus(401);
+            return false;
         }
-    
-        @Override
-        public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-                throws Exception {
-            // Springではスレッドプール内のスレッドは再利用される可能性がある
-            // そのためリクエストの処理後、tenantIdをリセットする
-            TenantThreadLocalStorage.setTenantId(null);
-        }
+
+        // 1.で用意したTenantThreadLocalStorageにtenantIdをセットする
+        TenantThreadLocalStorage.setTenantId(tenantIdObj.toString());
+
+        return true;
     }
-    ```
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+            throws Exception {
+        // Springではスレッドプール内のスレッドは再利用される可能性がある
+        // そのためリクエストの処理後、tenantIdをリセットする
+        TenantThreadLocalStorage.setTenantId(null);
+    }
+}
+```
 ::::
     
-::::details 3. SQLのコネクションを張る際に呼び出される関数で、1. の変数から `tenant_id` を取り出し実行時パラメータにセットする
+::::details 3. SQLのコネクションを張る際に呼び出される関数で、1. の変数から tenant_id を取り出し実行時パラメータにセットする
     
-    ```java
-    public class TenantAwareDataSource extends DataSource {
-        // getConnectionをオーバーライドすることでコネクション取得時に任意のコードを実行することができる
-        // getConnectionはDBアクセスが走るたびに呼び出される 
-        @Override
-        public Connection getConnection() throws SQLException {
-            Connection connection = super.getConnection();
-    
-            // connectionをひらくときに、実行時パラメータに2.でJWTから取り出したtenantIdをセットする
-            try (Statement sql = connection.createStatement()) {
-                sql.execute("SET app.current_tenant_id = '" + TenantThreadLocalStorage.getTenantIdString() + "'");
-            }
-    
-            return connection;
+```java
+public class TenantAwareDataSource extends DataSource {
+    // getConnectionをオーバーライドすることでコネクション取得時に任意のコードを実行することができる
+    // getConnectionはDBアクセスが走るたびに呼び出される 
+    @Override
+    public Connection getConnection() throws SQLException {
+        Connection connection = super.getConnection();
+
+        // connectionをひらくときに、実行時パラメータに2.でJWTから取り出したtenantIdをセットする
+        try (Statement sql = connection.createStatement()) {
+            sql.execute("SET app.current_tenant_id = '" + TenantThreadLocalStorage.getTenantIdString() + "'");
         }
+
+        return connection;
     }
-    ```
-    
-    - getConnectionはDBアクセスが走るたびに呼び出されれる[^5] 
+}
+```
+
+- getConnectionはDBアクセスが走るたびに呼び出される[^5] 
 ::::
 4. 後はRLSのことを意識せず、フレームワークのORMなどでDBアクセスする👌
 
