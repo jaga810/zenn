@@ -4,6 +4,7 @@ emoji: "🍣"
 type: "idea"
 topics: ["スクラム"]
 published: false
+publication_name: "nstock"
 ---
 
 こんにちは！Nstock の jaga です。
