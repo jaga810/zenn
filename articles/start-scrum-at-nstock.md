@@ -3,7 +3,7 @@ title: "開発組織の立ち上げと、はじめてのスクラムと"
 emoji: "🍣"
 type: "idea"
 topics: ["スクラム"]
-published: false
+published: true
 publication_name: "nstock"
 ---
 
