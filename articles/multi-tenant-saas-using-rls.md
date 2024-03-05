@@ -3,7 +3,7 @@ title: "RLSではじめるマルチテナントSaaS"
 emoji: "🤖"
 type: "tech"
 topics: ["postgresql", "rls",  "java", "springboot"]
-published: false
+published: true
 publication_name: "nstock"
 ---
 
