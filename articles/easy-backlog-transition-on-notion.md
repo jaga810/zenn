@@ -4,6 +4,7 @@ emoji: '🪄'
 type: 'tech' # tech: 技術記事 / idea: アイデア
 topics: ['Notion', 'スクラム']
 published: false
+publication_name: "nstock"
 ---
 
 こんにちは！Nstock でエンジニアをしています、jagaです 🥔
