@@ -3,7 +3,7 @@ title: '[スクラム × Notion #1] プロダクトバックログアイテム�
 emoji: '🪄'
 type: 'tech' # tech: 技術記事 / idea: アイデア
 topics: ['Notion', 'スクラム']
-published: false
+published: true
 publication_name: "nstock"
 ---
 
