@@ -3,7 +3,7 @@ title: '突然Amplify Hostingのプレビュー環境が作成されなくなっ
 emoji: '🥺'
 type: 'tech' # tech: 技術記事 / idea: アイデア
 topics: ['amplify']
-published: false
+published: true
 publication_name: "nstock"
 ---
 
