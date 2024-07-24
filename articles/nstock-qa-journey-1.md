@@ -4,6 +4,7 @@ emoji: "📚"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["QA"]
 published: false
+publication_name: "nstock"
 ---
 
 こんにちは！jagaです 🥔
