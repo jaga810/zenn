@@ -3,7 +3,7 @@ title: "Nstock QAの旅 #1 品質に対して思うことをチームで相互�
 emoji: "📚"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["QA"]
-published: false
+published: true
 publication_name: "nstock"
 ---
 
