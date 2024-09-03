@@ -78,10 +78,11 @@ QAエンジニアの採用活動を進めていますが苦戦しています。
 QAのプロにこれからやることの必要性をわかりやすくお話しいただくことで、全員の向かう方向が揃えられました。
 
 ### 過去のインシデントを全て書き出す
-![Postmortem DB](/images/nstock-qa-journey-3/postmortem.png)
-*Postmortem DB*
 
 プロダクト開発初期から社内インシデント事例を貯める、Postmortem DBをつくってたので、簡単に洗い出すことができました。
+
+![Postmortem DB](/images/nstock-qa-journey-3/postmortem.png)
+*Postmortem DB*
 
 ### 過去のインシデントをインシデントレベルの叩き台に当てはめてみる
 
@@ -91,7 +92,7 @@ QAのプロにこれからやることの必要性をわかりやすくお話し
 ![figjamのボード](/images/nstock-qa-journey-3/figjam.png)
 *共有に使ったFigJam*
 
-### インシデントレベルをマッピングする中で軸としてできたもの
+インシデントレベルをマッピングする中で軸としてできたものは以下です。
 
 - P1: 即時修正
     - 影響が全テナントにあり、コミュニケーションコストが高い
@@ -132,20 +133,10 @@ QAのプロにこれからやることの必要性をわかりやすくお話し
 
 
 ### インシデントレベルの決定フロー
-```mermaid
-graph LR
-	Start ---> com{コミュニケーションコストが高いか?}
-	com --> |高い| P1 
-	com -->|低い| priority{重要業務をブロックするか？}
-	priority --> |する| alternative{代替手段が存在するか？}
-	priority --> |しない| example{描画の崩れか？}
-	example --> |はい| P2
-	example --> |いいえ| P3
-	alternative --> |ない| P1(P1)
-	alternative --> |ある| P2(P2)
-```
+当日話した内容をもとに、筆者の方でインシデントレベルの決定フローを作りました。
 
-当日話した内容をもとに、筆者の方で暫定版を作りました。
+![figjamのボード](/images/nstock-qa-journey-3/decision-tree.png)
+*インシデントレベルの決定フロー*
 
 コミュニケーションコストが高いか、重要業務とは何か？がわかりやすいよう、以下のような補足をつけています。
 
