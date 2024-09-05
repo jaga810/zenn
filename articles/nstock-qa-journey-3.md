@@ -3,7 +3,7 @@ title: "Nstock QAの旅 #3 インシデントレベルを考えるワークシ�
 emoji: "😽"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["QA"]
-published: false
+published: true
 publication_name: "nstock"
 ---
 
