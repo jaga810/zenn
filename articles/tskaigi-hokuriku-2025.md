@@ -45,6 +45,22 @@ https://x.com/yuya_presto/status/1992510238520680612?s=20
 
 「なーん」かわいい。
 
+## スポンサーLT登壇
+
+Nstockのエンジニア、シマさん([@mashimashi_off](https://x.com/mashimashi_off))がスポンサーLTに登壇しました。
+
+タイトルは「4分間でわかった気になるRailway Oriented Programming」。関数型プログラミングでのエラーハンドリング技法について紹介する内容で、普段のTypeScriptのプログラミングでも役立つと思うのでぜひご覧ください！
+
+
+https://speakerdeck.com/yukishima/4fen-jian-tewakatutaqi-ninarurailway-oriented-programming-50101abc-b17e-4802-b36b-0b0fccc077c4
+
+
+ここからは裏話。
+
+実は当日、シマさんが体調不良になってしまい、オフライン登壇ができなくなってしまいました。
+
+急遽オンライン登壇ができないか運営に相談したところ、快く承諾していただき、オンライン登壇できる運びになりました。他セッションでのオンライン登壇はなかったので、想定外の中ご対応いただいたのだと思います。
+柔軟にご対応いただけて、本当に感謝です🙏運営の皆さま、ありがとうございました！
 
 ## 推しセッション
 
@@ -74,22 +90,6 @@ jagaが見たかったセッション。資料を読み込んでの感想です�
 ちなみに、LayerXの方が[LayerX Tech Book](https://techbookfest.org/product/5zbWgnL90mCvjt7MmnwxW2)の営業に来てくださったのですが、ブースにいたメンバーはまさかの全員購入済みでした(笑)。いつも参考になる発信をありがとうございます！
 
 
-## スポンサーLT登壇
-
-Nstockのエンジニア、シマさん([@mashimashi_off](https://x.com/mashimashi_off))がスポンサーLTに登壇しました。
-
-タイトルは「4分間でわかった気になるRailway Oriented Programming」。関数型プログラミングでのエラーハンドリング技法について紹介する内容で、普段のTypeScriptのプログラミングでも役立つと思うのでぜひご覧ください！
-
-
-https://speakerdeck.com/yukishima/4fen-jian-tewakatutaqi-ninarurailway-oriented-programming-50101abc-b17e-4802-b36b-0b0fccc077c4
-
-
-ここからは裏話。
-
-実は当日、シマさんが体調不良になってしまい、オフライン登壇ができなくなってしまいました。
-
-急遽オンライン登壇ができないか運営に相談したところ、快く承諾していただき、オンライン登壇できる運びになりました。他セッションでのオンライン登壇はなかったので、想定外の中ご対応いただいたのだと思います。
-柔軟にご対応いただけて、本当に感謝です🙏運営の皆さま、ありがとうございました！
 
 ## 懇親会
 
