@@ -25,6 +25,10 @@ TSKaigi Hokuriku、スポンサーとしても参加者としても最高な体�
 
 ![会場の様子](/images/tskaigi-hokuriku-2025/entrance.png)
 
+運営によると、現地参加で220名、オンライン含めると350名以上が参加されたようです。
+
+地方開催カンファレンスでこの規模は本当にすごい！
+
 ## Nstockのブース
 
 ![Nstockのブース](/images/tskaigi-hokuriku-2025/booth.png)
