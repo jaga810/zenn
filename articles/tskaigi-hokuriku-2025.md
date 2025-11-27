@@ -3,7 +3,7 @@ title: "[スポンサー参加記] TSKaigi Hokuriku が最高だった話"
 emoji: "🐟"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["イベントレポート", "TSKaigi", "TypeScript"]
-published: false
+published: true
 publication_name: "nstock"
 ---
 
