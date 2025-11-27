@@ -8,7 +8,7 @@ publication_name: "nstock"
 ---
 
 
-こんにちは！Nstockのjagaです。
+こんにちは！Nstockのじゃがです。
 
 Nstockは[TSKaigi Hokuriku 2025](https://hokuriku.tskaigi.org/)にスポンサーとして参加しました。
 
